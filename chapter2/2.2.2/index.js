@@ -2,8 +2,9 @@ const koa = require('koa');
 const app = new koa();
 
 /**
- * TODO: ctx.request对象
+ * @description GET请求
  * @param {*} GET请求
+ * @param 示例：http://localhost:3000/?search=koa&keywords=node.js
  */
 app.use(async (ctx, next) => {
     const responsejson = {
@@ -17,7 +18,6 @@ app.use(async (ctx, next) => {
 
 
 
-
-app.listen(3000, '192.168.103.16', () => {
-    console.log(`server runing http://192.168.103.16:3000`);
+app.listen(3000, 'localhost', () => {
+    console.log(`server runing http://localhost:3000`);
 });
