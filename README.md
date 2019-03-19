@@ -35,5 +35,8 @@ https://www.sojson.com/httpRequest/
                 koa-router 路由
             * 2.3.5(暂无实际效果)
                 koa-static + koa-views 渲染页面
-    * chapter3 路由
+    * chapter3 koa-router路由中间件
         * 3.1.1 restful API设计使用 GET、POST、PUT、DELETE方法
+        * 3.2.3 koa-router用法及router.all()方法
+        * 3.2.4 koa-jwt+jsonwebtoken生成token (未完整)
+        
