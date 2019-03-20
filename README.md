@@ -11,6 +11,17 @@ https://www.npmjs.com/package/nproxy
 http://tool.chinaz.com/Tools/httptest.aspx
 https://www.sojson.com/httpRequest/
 
+
+# 初始化项目时
+typings init
+
+# 安装命令
+typings install dt~node --global--save
+//typings install dt~jquery --global --save
+（–global：代表全局文件，有些包必须得加上这个参数才行）
+（–save ：表示将此次的安装信息记录到上面讲的typings.json中)
+
+
 * koa与node.js实战代码
     * chapter1 node.js入门
         * 1.1.5 使用node.js搭建一个http server(kindle position: 373)
@@ -39,4 +50,9 @@ https://www.sojson.com/httpRequest/
         * 3.1.1 restful API设计使用 GET、POST、PUT、DELETE方法
         * 3.2.3 koa-router用法及router.all()方法
         * 3.2.4 koa-jwt+jsonwebtoken生成token (未完整)
+    * chapter5 构建koa web应用
+        * 5.1.3 在koa中实现MVC
+            * 分离router.js 
+            * controller 进行业务逻辑部分处理
+            * service 为controller提供model数据
         
