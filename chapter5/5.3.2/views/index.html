@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1103896_m0rmpp5tze.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-row type="flex" class="row-bg" justify="center">
+            <el-col :xs="20" :sm="18" :md="16" :lg="12">
+                <form class="el-form" method="POST" action="/login">
+                    <div class="el-form-item is-required">
+                        <label for="username" class="el-form-item__label" style="width: 60px;">名称</label>
+                        <div class="el-form-item__content" style="margin-left: 60px;">
+                            <div class="el-input">
+                                <input type="text" id="username" name="username" autocomplete="off" placeholder="test01"
+                                    class="el-input__inner">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="el-form-item is-required">
+                        <label for="userpsd" class="el-form-item__label" style="width: 60px;">密码</label>
+                        <div class="el-form-item__content" style="margin-left: 60px;">
+                            <div class="el-input">
+                                <input type="password" id="userpsd" name="userpsd" autocomplete="off" placeholder="12345678"
+                                    class="el-input__inner">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="el-form-item is-required">
+                        <label for="useraddress" class="el-form-item__label" style="width: 60px;">地址</label>
+                        <div class="el-form-item__content" style="margin-left: 60px;">
+                            <div class="el-input">
+                                <input type="text" id="useraddress" name="useraddress" autocomplete="off" placeholder="杭州"
+                                    class="el-input__inner">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="el-form-item">
+                        <div class="el-form-item__content" style="margin-left: 60px;">
+                            <button type="submit" class="el-button el-button--primary">
+                                <span>提交</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </el-col>
+        </el-row>
+    </div>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录成功</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- username, userpsd, useraddress -->
+        <el-row type="flex" class="row-bg" justify="center">
+            <el-col :xs="22" :sm="20" :md="16" :lg="12" :xl="12">
+                <el-form ref="form" label-width="60px">
+                    <el-form-item label="名称">
+                        <span>{{username}}</span>
+                    </el-form-item>
+                    <el-form-item label="密码">
+                        <span>{{userpsd}}</span>
+                    </el-form-item>
+                    <el-form-item label="地址">
+                        <span>{{useraddress}}</span>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+        </el-row>
+    </div>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+
+</html>
