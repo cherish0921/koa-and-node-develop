@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1103896_nz3oalv51lq.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/upload.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-row type="flex" class="row-bg" justify="center">
+            <el-col :xs="20" :sm="18" :md="16" :lg="12">
+                <form class="el-form">
+                    <div class="el-form-item">
+                        <label class="el-form-item__label" for="upload" style="width: 80px;">上传文件</label>
+                        <div class="el-form-item__content" style="margin-left: 80px;">
+                            <div class="avatar-uploader">
+                                <div tabindex="0" class="el-upload el-upload--text">
+                                    <i class="icon iconfont icon-tianjia"></i>
+                                    <input type="file" @change="uploadrequest" id="upload" name="file" class="el-upload__input" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="el-form-item" v-if="form.imageUrl">
+                        <label class="el-form-item__label" for="upload" style="width: 80px;">上传地址</label>
+                        <div class="el-form-item__content" style="margin-left: 80px;">
+                            <a :href="form.imageUrl" target="_blank" v-html="form.imageUrl"></a>
+                        </div>
+                    </div>
+                </form>
+            </el-col>
+        </el-row>
+    </div>
+    <script src="./js/axios.min.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    form: {
+                        imageUrl: ''
+                    }
+                }
+            },
+            methods: {
+                uploadrequest(e){
+                    let formdata = new FormData();
+                    formdata.append('file', e.target.files[0]);
+                    axios.post('/profile', formdata).then((res) => {
+                        if(res.data.code == 200){
+                            this.$message('图片上传成功');
+                            this.form.imageUrl = res.data.msg.url;
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -58,4 +58,7 @@ http://element-cn.eleme.io/#/zh-CN
             * 分离router.js 
             * controller 进行业务逻辑部分处理
             * service 为controller提供model数据
+        * 5.3.2 开发登录验证页面
+        * 5.4.1 koa-json ajax响应json数据
+        * 5.4.2 koa-multer 中间件实现图片文件上传、写入文件
         
