@@ -24,6 +24,11 @@ typings install dt~node --global--save
 # element-ui 国内站点
 http://element-cn.eleme.io/#/zh-CN
 
+# 正常连接MYSQL
+mysql -u root -p
+
+# MYSQL退出
+quit
 
 * koa与node.js实战代码
     * chapter1 node.js入门
@@ -61,4 +66,6 @@ http://element-cn.eleme.io/#/zh-CN
         * 5.3.2 开发登录验证页面
         * 5.4.1 koa-json ajax响应json数据
         * 5.4.2 koa-multer 中间件实现图片文件上传、写入文件
+    * application 应用章节
+
         
