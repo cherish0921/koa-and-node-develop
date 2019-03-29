@@ -35,6 +35,7 @@ const member = sequelize.define('hee_member', {
     }
 });
 
-member.sync({force: true});
+// TODO: 如果表已存在则覆盖
+// member.sync({force: true});
 
 module.exports = member;
