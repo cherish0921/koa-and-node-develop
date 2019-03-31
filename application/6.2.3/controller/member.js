@@ -1,4 +1,4 @@
-const { postaddmember, queryallmember, querybycondition } = require('../model/member.js');
+const { postaddmember, queryallmember, querybycondition, updatemember, deletemember } = require('../model/member.js');
 
 /**
  * @description 新增用户
@@ -17,6 +17,11 @@ const addmember = async (ctx, next) => {
     });
 }
 
+/**
+ * @description 查询用户
+ * @param {*} ctx 
+ * @param {*} next 
+ */
 const getmember = async (ctx, next) => {
     const { userName, invitorName, mobile, status, role, pageNo, pageSize} = ctx.query;
     let data = null;
@@ -33,7 +38,47 @@ const getmember = async (ctx, next) => {
     });
 }
 
+/**
+ * @description 更新用户操作
+ * @param {*} ctx 
+ * @param {*} next 
+ */
+const updatemenberhandle = async (ctx, next) => {
+    const id = Number.parseInt(ctx.params.id);
+    const { email, investAmount, invitorName, mobile, role, status, userName } = ctx.request.body;
+    if(id <=0 || id == null || id == ""){
+        ctx.response.body = JSON.stringify({
+            code: -1,
+            msg: 'Missing required value ID'
+        });
+    }else{
+        await updatemember(id, { email, investAmount, invitorName, mobile, role, status, userName });
+        ctx.response.body = JSON.stringify({
+            code: 200,
+            msg: 'update completed'
+        });
+    }
+}
+
+const deletememberbyId = async (ctx, next) => {
+    const id = Number.parseInt(ctx.params.id);
+    if(id <=0 || id == null || id == ""){
+        ctx.response.body = JSON.stringify({
+            code: -1,
+            msg: 'Missing required value ID'
+        });
+    }else{
+        await deletemember(id);
+        ctx.response.body = JSON.stringify({
+            code: 200,
+            msg: 'delete completed'
+        });
+    }
+}
+
 module.exports = {
     addmember,
-    getmember
+    getmember,
+    updatemenberhandle,
+    deletememberbyId
 }

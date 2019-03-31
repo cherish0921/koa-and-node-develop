@@ -30,6 +30,9 @@ mysql -u root -p
 # MYSQL退出
 quit
 
+# sequelize中文文档
+https://demopark.github.io/sequelize-docs-Zh-CN/
+
 * koa与node.js实战代码
     * chapter1 node.js入门
         * 1.1.5 使用node.js搭建一个http server(kindle position: 373)

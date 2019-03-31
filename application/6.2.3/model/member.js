@@ -23,19 +23,66 @@ async function queryallmember(pageNo, pageSize){
     });
 }
 
+/**
+ * @description 模糊条件查询用户
+ * @param {} reset 
+ */
 async function querybycondition(reset){
-    const likestrarr = [ 'userName', 'invitorName' ];
-    Object.keys(reset).forEach(key => {
-        console.log(key);
-        if(reset[key]){
-            console.log('...........');
-            console.log(reset[key]);
-        }
+    const { userName, invitorName, mobile, status, role, pageNo, pageSize } = reset;
+    return member.findAndCountAll({
+        attributes: ['id', 'userName', 'mobile', 'createdAt', 'invitorName', 'role', 'status'],
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        where: {
+            userName: {
+                [Op.like]: `${userName}%`
+            },
+            invitorName: {
+                [Op.like]: `${invitorName}%`
+            },
+            mobile: {
+                [Op.like]: `${mobile}%`
+            },
+            status: String(status),
+            role: String(role)
+        },
+        offset: (Number.parseInt(pageNo) -1) * Number.parseInt(pageSize),
+        limit: Number.parseInt(pageSize)
     });
+}
+
+/**
+ * @description 根据用户ID更改用户信息
+ * @param {*} id 
+ * @param {*} obj 
+ */
+async function updatemember(id, obj){
+    const item = await member.findById(id);
+    if(item){
+        return item.update(obj);
+    }else{
+        throw new Error(`No data found for ID=${id}`);
+    }
+}
+
+/**
+ * @description 删除数据
+ * @param {Number} id 
+ */
+async function deletemember(id){
+    const item = await member.findById(id);
+    if(item){
+        return item.destroy();
+    }else{
+        throw new Error(`No data found for ID=${id}`);
+    }
 }
 
 module.exports = {
     postaddmember,
     queryallmember,
-    querybycondition
+    querybycondition,
+    updatemember,
+    deletemember
 }
