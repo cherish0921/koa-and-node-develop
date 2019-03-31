@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-row type="flex" class="row-bg" justify="center">
+            <el-col :xs="22" :sm="22" :md="20" :lg="20" :xl="20">
+                <!-- TODO: 搜索表单 -->
+                <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                    <el-form-item>
+                        <el-input v-model="formInline.teacher" placeholder="请输入老师姓名"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-date-picker v-model="formInline.starttime" align="right" type="date" placeholder="开始日期"
+                            format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" :picker-options="pickerOptions1">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-date-picker v-model="formInline.endtime" align="right" type="date" placeholder="结束日期"
+                            format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" :picker-options="pickerOptions1">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">查询</el-button>
+                        <el-button @click="hanlecurriculum(null,null,'add')">新增课程</el-button>
+                        <el-button @click="addcategory">新增类目</el-button>
+                    </el-form-item>
+                </el-form>
+                <!-- TODO: table表格 -->
+                <el-table :data="tableData" style="width: 100%">
+                    <!-- <el-table-column label="Date" prop="date"></el-table-column> -->
+                    <el-table-column label="老师" prop="teacher"></el-table-column>
+                    <el-table-column label="课程" prop="course"></el-table-column>
+                    <el-table-column label="开始时间" prop="starttime"></el-table-column>
+                    <el-table-column label="结束时间" prop="endtime"></el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <el-button size="mini" @click="handle(scope.$index, scope.row, 'Edit')">Edit</el-button>
+                            <el-button size="mini" type="danger" @click="handle(scope.$index, scope.row, 'Delete')">
+                                Delete</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <!-- TODO: 分页 -->
+                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-if="total"
+                    :current-page="formInline.pageNo" :page-sizes="[10, 20, 30, 40]" :page-size="formInline.pageSize"
+                    layout="total, sizes, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+                <!-- TODO: 类目表单 -->
+                <el-dialog title="新增" :visible.sync="form.dialogFormVisible">
+                    <el-form :model="form" label-width="80px">
+                        <el-form-item label="输入名称">
+                            <el-input v-model="form[form.model]" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="选择类别">
+                            <el-radio-group v-model="form.model" @change="changecategorymodel">
+                                <el-radio label="coursename">课程</el-radio>
+                                <el-radio label="teachername">老师</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="form.dialogFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="submitcategory">确 定</el-button>
+                    </div>
+                </el-dialog>
+                <!-- TODO: 课程表单 -->
+                <el-dialog :title="curriculumform.title" :visible.sync="curriculumform.dialogFormVisible">
+                    <el-form :model="curriculumform" label-width="80px">
+                        <el-form-item label="教学时段">
+                            <el-time-select
+                                v-model="curriculumform.timepoint"
+                                :picker-options="{
+                                  start: '08:00',
+                                  step: '01:00',
+                                  end: '21:00'
+                                }" placeholder="选择教学时段">
+                            </el-time-select>
+                        </el-form-item>
+                        <el-form-item label="开始时间">
+                            <el-time-select
+                                v-model="curriculumform.starttime"
+                                format="HH:mm:ss" 
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                :picker-options="{
+                                  start: '08:00:00',
+                                  step: '00:15:00',
+                                  end: '21:00:00'
+                                }" placeholder="选择开始时间">
+                            </el-time-select>
+                        </el-form-item>
+                        <el-form-item label="结束时间">
+                            <el-time-select
+                                v-model="curriculumform.endtime"
+                                format="HH:mm:ss" 
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                :picker-options="{
+                                  start: '08:00:00',
+                                  step: '00:15:00',
+                                  end: '21:00:00'
+                                }" placeholder="选择结束时间">
+                            </el-time-select>
+                        </el-form-item>
+                        <el-form-item label="选择老师">
+                            <el-select v-model="curriculumform.teacher" placeholder="请选择">
+                                <el-option v-for="item in teacherlist" :key="item.id" :label="item.teachername" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="选择科目">
+                            <el-select v-model="curriculumform.course" placeholder="请选择">
+                                <el-option v-for="item in courselist" :key="item.id" :label="item.coursename" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="上下线">
+                            <el-radio-group v-model="curriculumform.status">
+                                <el-radio label="1">上线</el-radio>
+                                <el-radio label="0">下线</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="curriculumform.dialogFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="submitcurriculum">确 定</el-button>
+                    </div>
+                </el-dialog>
+            </el-col>
+        </el-row>
+    </div>
+    <script src="./js/axios.min.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    pickerOptions1: {
+                        disabledDate(time) {
+                            return time.getTime() > Date.now();
+                        },
+                        shortcuts: [{
+                            text: '今天',
+                            onClick(picker) {
+                                picker.$emit('pick', new Date());
+                            }
+                        }, {
+                            text: '昨天',
+                            onClick(picker) {
+                                const date = new Date();
+                                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                                picker.$emit('pick', date);
+                            }
+                        }, {
+                            text: '一周前',
+                            onClick(picker) {
+                                const date = new Date();
+                                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                                picker.$emit('pick', date);
+                            }
+                        }]
+                    },
+                    formInline: {
+                        starttime: '',
+                        endtime: '',
+                        teacher: '',
+                        course: '',
+                        status: '',
+                        pageNo: 1,
+                        pageSize: 10
+                    },
+                    form: {
+                        model: 'coursename', //TODO: 新增模式 coursename课程 teachername老师
+                        coursename: '',
+                        teachername: '',
+                        dialogFormVisible: false
+                    },
+                    curriculumform: {
+                        model: 'add', //TODO: add 新增，edit编辑
+                        title: '新增课程',
+                        dialogFormVisible: false,
+                        id: null,
+                        timepoint: '', 
+                        starttime: '',
+                        endtime: '',
+                        teacher: '',
+                        course: '',
+                        status: '1'
+                    },
+                    tableData: [],
+                    courselist: [], //TODO: 科目list
+                    teacherlist: [], //TODO: 教师list
+                    total: null
+                }
+            },
+            created() {
+                this.getcurriculum();
+                this.getallcategory();
+            },
+            methods: {
+                /**
+                 * @description 搜索
+                */
+                onSubmit() {
+                    this.formInline.pageNo = 1;
+                    this.getcurriculum();
+                },
+                /**
+                 * @description 获取课程
+                */
+                getcurriculum() {
+                    console.log('获取课程....');
+                },
+                /**
+                 * @description 获取所有类目
+                */
+                getallcategory(){
+                    Promise.all([axios.get('/course'), axios.get('/teacher')]).then((reslist) => {
+                        if(reslist[0].data.data.rows && reslist[0].data.data.rows.length){
+                            this.courselist = reslist[0].data.data.rows;
+                        }
+                        if(reslist[1].data.data.rows && reslist[1].data.data.rows.length){
+                            this.teacherlist = reslist[1].data.data.rows;
+                        }
+                    });
+                },
+                /**
+                 * @description 编辑删除
+                */
+                handle(index, item, type) {
+
+                },
+                /**
+                 * @description 改变条数
+                */
+                handleSizeChange(val) {
+                    this.formInline.pageSize = val;
+                    this.getcurriculum();
+                },
+                /**
+                 * @description 改变页数
+                */
+                handleCurrentChange(val) {
+                    this.formInline.pageNo = val;
+                    this.getcurriculum();
+                },
+                /**
+                 * @description 新增类目
+                */
+                addcategory() {
+                    this.form[this.form.model] = '';
+                    this.form.dialogFormVisible = true;
+                },
+                /**
+                 *  @description 改变类目
+                */
+                changecategorymodel(val){
+                    this.form[this.form.model] = '';
+                },
+                /**
+                 * @description 提交新增老师或课程
+                */
+                submitcategory(){
+                    if(this.form[this.form.model]){
+                        const url = this.form.model == 'coursename' ? '/course' : '/teacher';
+                        const requestdata = {
+                            [this.form.model]: this.form[this.form.model]
+                        }
+                        axios.post(url, requestdata).then((res) => {
+                            if(res.data.code == 200){
+                                if(this.form.model == 'coursename'){
+                                    this.$notify({
+                                        title: '成功',
+                                        message: '新增课程成功',
+                                        type: 'success'
+                                    });
+                                }else{
+                                    this.$notify({
+                                        title: '成功',
+                                        message: '新增老师成功',
+                                        type: 'success'
+                                    });
+                                }
+                                this.getallcategory();
+                            }else{
+                                this.$notify({
+                                    title: '错误',
+                                    message: '服务器异常',
+                                    type: 'error'
+                                });
+                            }   
+                            this.form.dialogFormVisible = false;
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                    }else{
+                        return
+                    }
+                },
+                hanlecurriculum(index, item, type){
+                    this.curriculumform.model = type;
+                    switch (type) {
+                        case 'add':
+                        {
+                            if(!this.courselist.length){
+                                this.$notify({
+                                    title: '提示',
+                                    message: '请先增加科目',
+                                    type: 'error'
+                                });
+                                return
+                            } 
+                            if(!this.teacherlist.length){
+                                this.$notify({
+                                    title: '提示',
+                                    message: '请先增加教师',
+                                    type: 'error'
+                                });
+                                return
+                            } 
+                            this.curriculumform.title = '新增课程';
+                            this.curriculumform = Object.assign(this.curriculumform, {
+                                id: null,
+                                timepoint: '', 
+                                starttime: '',
+                                endtime: '',
+                                teacher: '',
+                                course: '',
+                                status: '1'
+                            });
+                        };
+                        break;
+                        default:
+                        break;
+                    }
+                    this.curriculumform.dialogFormVisible = true;
+                },
+                /**
+                 * @description 提交课程
+                */
+                submitcurriculum(){
+                    let url = null,methods = null, params = null;
+                    switch (this.curriculumform.model) {
+                        case 'add':
+                        {
+                            url = '/curriculum';
+                            methods = 'post';
+                            params = {
+                                timepoint: parseInt(this.curriculumform.timepoint),
+                                starttime: this.curriculumform.starttime,
+                                endtime: this.curriculumform.endtime,
+                                teacher: this.curriculumform.teacher,
+                                course: this.curriculumform.course,
+                                status: this.curriculumform.status
+                            }
+                            this.hanlereqeust(methods, url, params, (res) => {
+                                if(res.code == 200){
+                                    this.$notify({
+                                        title: '提示',
+                                        message: '新增成功',
+                                        type: 'success'
+                                    });
+                                    this.curriculumform.dialogFormVisible = false;
+                                }
+                            });
+                        };
+                        break;
+                        default:
+                        break;
+                    }
+                    this.getcurriculum();
+                },
+                hanlereqeust(methods,url, obj, callback = null){
+                    axios[methods](url, obj).then((res) => {
+                        if(callback){
+                            callback(res.data);
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

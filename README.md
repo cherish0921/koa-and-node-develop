@@ -70,5 +70,6 @@ https://demopark.github.io/sequelize-docs-Zh-CN/
         * 5.4.1 koa-json ajax响应json数据
         * 5.4.2 koa-multer 中间件实现图片文件上传、写入文件
     * application 应用章节
-
-        
+        * 初识sequelize 搭建数据库
+        * 6.2.3 第一款Restful api应用
+        * 6.2.4 多表查询(未完成)
