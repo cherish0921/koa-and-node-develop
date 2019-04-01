@@ -1,6 +1,7 @@
 # koa-and-node-develop
 koa和nodejs实战开发
 
+```
 # Yarn 模块管理工具
 https://yarnpkg.com/zh-Hans/
 
@@ -32,6 +33,13 @@ quit
 
 # sequelize中文文档
 https://demopark.github.io/sequelize-docs-Zh-CN/
+
+# windows redis启动
+redis-server.exe redis.windows.conf
+
+# 新窗口启动
+redis-cli.exe -h 127.0.0.1 -p 6379
+```
 
 * koa与node.js实战代码
     * chapter1 node.js入门
@@ -72,4 +80,6 @@ https://demopark.github.io/sequelize-docs-Zh-CN/
     * application 应用章节
         * 初识sequelize 搭建数据库
         * 6.2.3 第一款Restful api应用
-        * 6.2.4 多表查询(未完成)
+        * 6.2.4 多表查询<label style="color:red">(未完成)</label>
+        * 6.4.2 初始redis
+        * 6.4.3 持久化Session状态<label style="color:red">(未完成)</label>
