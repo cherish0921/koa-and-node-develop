@@ -83,3 +83,9 @@ redis-cli.exe -h 127.0.0.1 -p 6379
         * 6.2.4 多表查询<label style="color:red">(未完成)</label>
         * 6.4.2 初始redis
         * 6.4.3 持久化Session状态<label style="color:red">(未完成)</label>
+        * log4js 日志应用
+            * 8.1.1 初始log4js记录开发日志 info等级
+            * 8.1.2 初始log4js记录开发日志挂载全局请求上下文ctx对象中
+            * 8.1.3 logjs日志高级应用切割，配置开发环境
+        * 8.1.4 美化自定义错误页, 400错误,404错误,500错误，其他错误页面
+            

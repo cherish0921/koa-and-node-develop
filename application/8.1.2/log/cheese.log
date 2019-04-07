@@ -1,0 +1,6 @@
+[2019-04-06T11:56:23.182] [INFO] cheese - path: /,method: GET, responseTime: 0.01s
+[2019-04-06T11:56:23.212] [INFO] cheese - path: /favicon.ico,method: GET, responseTime: 0.00s
+[2019-04-06T11:56:23.825] [INFO] cheese - path: /,method: GET, responseTime: 0.00s
+[2019-04-06T11:56:23.879] [INFO] cheese - path: /favicon.ico,method: GET, responseTime: 0.00s
+[2019-04-06T11:56:55.496] [INFO] cheese - path: /,method: GET, responseTime: 0.01s
+[2019-04-06T11:56:55.521] [INFO] cheese - path: /favicon.ico,method: GET, responseTime: 0.00s
