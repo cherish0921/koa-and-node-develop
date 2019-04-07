@@ -88,4 +88,7 @@ redis-cli.exe -h 127.0.0.1 -p 6379
             * 8.1.2 初始log4js记录开发日志挂载全局请求上下文ctx对象中
             * 8.1.3 logjs日志高级应用切割，配置开发环境
         * 8.1.4 美化自定义错误页, 400错误,404错误,500错误，其他错误页面
+        * 应用部署
+            * 8.1.5 PM2进程管理器 
+                * PM2 中文文档地址：[https://pm2.io/doc/zh/runtime/overview/](https://pm2.io/doc/zh/runtime/overview/)
             
